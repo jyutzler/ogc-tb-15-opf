@@ -64,8 +64,8 @@ The `gpkgext_vt_layers` table describes the vector layers in a vector tile set. 
 * `id` is a primary key
 * `table_name` matches the entry in `gpkg_contents`
 * `name` is the layer name
-* `description` is the layer name
-* `minzoom` and `maxzoom` are the integer minimum and maximum zoom levels
+* `description` is an optional text description
+* `minzoom` and `maxzoom` are the optional integer minimum and maximum zoom levels
 
 [[gpkgext_vt_fields]]
 ==== `gpkgext_vt_fields`
