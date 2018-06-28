@@ -1,0 +1,89 @@
+== Vector Tiles Extension (Normative)
+
+=== Extension Title
+
+Vector Tiles
+
+=== Introduction
+
+The GeoPackage Vector Tiles extension defines the rules and requirements for encoding vector tiles in a GeoPackage data store<<1>>. 
+It is based on the https://www.mapbox.com/vector-tiles/specification/[Mapbox Vector Tiles (MVT) specification] https://github.com/mapbox/vector-tile-spec/tree/master/2.1[version 2.1]
+and uses https://github.com/google/protobuf[Google Protocol Buffers] as the content encoding for each tile.
+
+This extension, like all GeoPackage extensions, is intended to be transparent and to not interfere with GPKG compliant, but non-supporting, software packages.
+
+=== Extension Author
+
+Image Matters LLC
+
+=== Extension Name or Template
+
+`im_vector_tiles` (If this extension is adopted by OGC, then `gpkg_vector_tiles` will be named as an alias.)
+
+=== Extension Type
+
+This extension provides new requirements dependent on GeoPackage http://www.geopackage.org/spec120/index.html#tiles[Clause 2.2 (tiles)].
+
+=== Applicability
+
+This extension defines an alternate way to encode feature information into a GeoPackage.
+
+=== Scope
+
+read-write
+
+=== Specification
+
+If this extension is in use, then all of the http://www.geopackage.org/guidance/getting-started.html#tiles[Tiles Option] applies.
+There are two additional required metadata tables, <<gpkgext_vt_layers>> and <<gpkgext_vt_fields>>, that mirror the https://github.com/mapbox/mbtiles-spec/blob/master/1.3/spec.md#vector_layers[vector_layers key from the JSON object from the metadata from MBTiles]. 
+This allows client software to understand the feature schemas without having to open individual tiles.
+
+==== `gpkg_extensions`
+To use this extension, add the following rows to this table.
+
+.gpkg_extensions Table Rows
+[cols=",,,,",options="header",]
+|========================================================================================================================================================================
+| table_name | column_name | extension_name | definition | scope
+| `gpkgext_vt_layers`   | NULL  | `im_vector_tiles`   | https://github.com/jyutzler/geopackage-vector-tiles/blob/master/spec/1_vector_tiles.adoc | _read-write_ 
+| `gpkgext_vt_fields`   | NULL  | `im_vector_tiles`   | https://github.com/jyutzler/geopackage-vector-tiles/blob/master/spec/1_vector_tiles.adoc | _read-write_
+| _tile pyramid user data table name_   | `tile_data`  | `im_vector_tiles`   | https://github.com/jyutzler/geopackage-vector-tiles/blob/master/spec/1_vector_tiles.adoc | _read-write_
+|========================================================================================================================================================================
+
+
+==== `gpkg_contents`
+Like any other content type, add a row for each tile set, using a `data_type` of "vector-tiles".
+
+==== `gpkg_spatial_ref_sys`
+Like any other content type, the SRS for your contents must be registered in this table. While any valid SRS may be used, Web Mercator (EPSG:3857) maintains compatibility with MVT.
+
+[[gpkgext_vt_layers]]
+==== `gpkgext_vt_layers`
+The `gpkgext_vt_layers` table describes the vector layers in a vector tile set. The columns in this table are:
+
+* `id` is a primary key
+* `table_name` matches the entry in `gpkg_contents`
+* `name` is the layer name
+* `description` is the layer name
+* `minzoom` and `maxzoom` are the integer minimum and maximum zoom levels
+
+[[gpkgext_vt_fields]]
+==== `gpkgext_vt_fields`
+The `gpkgext_vt_fields` table describes the attributes for a vector tile layer. The columns in this table are:
+
+* `id` is a primary key
+* `layer_id` matches the entry in `gpkg_contents`
+* `name` is the attribute name
+* `type` is either "String", "Number", or "Boolean"
+
+==== User Data Tables
+Like other tile-based content, the physical data is stored in http://www.geopackage.org/guidance/getting-started.html#user-data-tables[user-defined tiles tables].
+The `tile_data` is a Google Protocol Buffer as https://github.com/mapbox/vector-tile-spec/blob/master/2.1/vector_tile.proto[defined by MVT].
+
+=== Abstract Test Suite
+TBD
+
+=== Example
+TBD
+
+
