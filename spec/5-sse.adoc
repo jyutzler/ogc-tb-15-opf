@@ -1,0 +1,86 @@
+[[styles_extension]]
+=== GeoPackage Styles Extension
+
+[WARNING]
+====
+This subsection is under discussion and may change radically.
+====
+
+==== Extension Title
+
+Styles
+
+==== Introduction
+
+This extension provides a mechanism for styles in a GeoPackage.
+
+==== Extension Author
+
+Image Matters LLC, in collaboration with the participants of the OGC Vector Tiles Pilot and the OWS Context SWG.
+
+==== Extension Name or Template
+
+`im_styles` (will become `gpkg_styles` if adopted by OGC)
+
+==== Extension Type
+
+New requirement dependent on http://www.geopackage.org/spec/#core[GeoPackage Core (Clause 1)].
+
+==== Applicability
+
+This extension allows for stylesheets to be stored in a GeoPackage.
+How those stylesheets are used is outside of the scope of this specification, but they could be incorporated into OWS Context (see <<owscontext_extension>>.
+
+==== Scope
+
+read-write
+
+==== Specification
+
+===== `gpkg_extensions`
+
+To use this extension, add the following rows to this table as needed.
+
+[[stylesheet_ger_table]]
+.gpkg_extensions Table Rows
+[cols=",,,,",options="header",]
+|========================================================================================================================================================================
+| table_name | column_name | extension_name | definition | scope
+|`gpkgext_stylesheets` |null |`im_styles` |_a reference to this file_ |`read-write`
+|`gpkgext_symbols` |null |`im_styles` |_a reference to this file_ |`read-write`
+|========================================================================================================================================================================
+
+[NOTE]
+==========
+The values in the `definition` column SHOULD refer in some human-readable way to this extension specification. If the extension is adopted by OGC, it will gain the "gpkg_" prefix and get a different definition permalink.
+==========
+
+[[gpkgext_stylesheets]]
+===== `gpkgext_stylesheets`
+This table contains stylesheets, organized by style set and option. 
+The columns of this table are:
+
+* `id` is a primary key
+* `layer_set` is text defining a layer set that is suitable for styling in a common way
+* `style` is text describing a specific implementation for a layer set
+* `format` is the format of the stylesheet (e.g., `mbstyle` or `sld`)
+* `stylesheet` is the actual stylesheet BLOB
+* `title` is a text title
+* `description` is a text description
+
+[[gpkgext_symbols]]
+===== `gpkgext_symbols`
+This table contains symbols, organized by style set and option. 
+The columns of this table are:
+
+* `id` is a primary key
+* `symbol_id` is an string identifier such as a URI that can uniquely identify the symbol
+* `content_type` is the media type (formerly MIME type, e.g., `image/svg+xml` or `image/png`) of the symbol
+* `symbol` is the actual symbol BLOB
+* `title` is a text title
+* `description` is a text description
+
+[NOTE]
+====
+As with other GeoPackage tables, this specification takes no position on how either of these tables are to be used by a client. 
+====

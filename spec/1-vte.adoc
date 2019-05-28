@@ -1,0 +1,101 @@
+[[VectorTilesExtensionClause]]
+=== Vector Tiles Extension
+
+==== Extension Title
+
+Vector Tiles
+
+==== Introduction
+
+The GeoPackage Vector Tiles extension defines the rules and requirements for encoding tiled feature data in a format commonly known as "vector tiles" into a GeoPackage data store. 
+
+[WARNING]
+==============
+This extension does not define an encoding for vector tiles.
+To be usable, an additional extension such as link:2-mvte.adoc[Mapbox Vector Tiles Extension] or link:3-gvte.adoc[GeoJSON Vector Tiles Extension] must also be used.
+==============
+
+This extension, like all GeoPackage extensions, is intended to be transparent and to not interfere with GeoPackage-compliant, but non-supporting, software packages.
+
+==== Extension Author
+
+Image Matters LLC, in collaboration with the participants of the OGC Vector Tiles Pilot and OGC Testbed-15.
+
+==== Extension Name or Template
+
+`im_vector_tiles` (If this extension is adopted by OGC, then `gpkg_vector_tiles` will be named as an alias.)
+
+==== Extension Type
+
+This extension provides new requirements dependent on GeoPackage http://www.geopackage.org/spec121/index.html#tiles[Clause 2.2 (tiles)].
+
+==== Applicability
+
+This extension defines an alternate way to encode feature information into a GeoPackage.
+
+==== Scope
+
+read-write
+
+==== Specification
+
+If this extension is in use, then all of the http://www.geopackage.org/guidance/getting-started.html#tiles[Tiles Option] applies.
+The individual tiles (`tile_data` in a tile pyramid user data table) are vector tiles.
+
+[NOTE]
+====
+Individual vector tiles MAY be deflate compressed.
+====
+
+There are two additional required metadata tables, <<gpkgext_tfd_layers>> and <<gpkgext_tfd_fields>>, that mirror the https://github.com/mapbox/mbtiles-spec/blob/master/1.3/spec.md#vector_layers[vector_layers key from the JSON object from the metadata from MBTiles]. 
+This allows client software to understand the feature schemas without having to open individual tiles.
+
+===== `gpkg_extensions`
+
+To use this extension, add the following rows to this table.
+
+[[tiled_feature_data_ger_table]]
+.gpkg_extensions Table Rows
+[cols=",,,,",options="header",]
+|========================================================================================================================================================================
+| table_name | column_name | extension_name | definition | scope
+| `gpkgext_vt_layers`   | NULL  | `im_vector_tiles`   | _a reference to this file_ | _read-write_ 
+| `gpkgext_vt_fields`   | NULL  | `im_vector_tiles`   | _a reference to this file_ | _read-write_
+|========================================================================================================================================================================
+
+[NOTE]
+==========
+The values in the `definition` column SHOULD refer in some human-readable way to this extension specification. If the extension is adopted by OGC, it will gain the "gpkg_" prefix and get a different definition permalink.
+==========
+
+===== `gpkg_contents`
+Like any other content type, add a row for each tile set, using a `data_type` of "tiled-features".
+
+===== `gpkg_spatial_ref_sys`
+Like any other content type, the Spatial Reference System (SRS) for the content to be stored must be registered in this table. See clause 1.1.2 in the core GeoPackage standard. While any valid SRS may be used, Web Mercator (EPSG:3857) maintains compatibility with MVT.
+
+[[gpkgext_vt_layers]]
+===== `gpkgext_vt_layers`
+The `gpkgext_vt_layers` table describes the layers in a vector tiles set. The columns in this table are:
+
+* `id` is a primary key
+* `table_name` matches the entry in `gpkg_contents`
+* `name` is the layer name
+* `description` is an optional text description
+* `minzoom` and `maxzoom` are the optional integer minimum and maximum zoom levels
+* `stylable_layer_set` is the optional name to identify the intended styles and stylesheets for the layer
+* `attributes_table_name` is the optional name of an attributes table containing the attributes (when not embedded in the vector tiles)
+
+[[gpkgext_vt_fields]]
+===== `gpkgext_vt_fields`
+The `gpkgext_vt_fields` table describes the fields (attributes) for a tiled feature data layer. The columns in this table are:
+
+* `id` is a primary key
+* `layer_id` is a foreign key to `id` in `gpkgext_vt_layers`
+* `name` is the field name
+* `type` is either "String", "Number", or "Boolean"
+
+[NOTE]
+====
+This table is not to be used for layers with a non-null `attributes_table_name`.
+====

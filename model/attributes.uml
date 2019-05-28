@@ -1,0 +1,50 @@
+@startuml
+hide empty methods
+
+package system_tables {
+class gpkgext_related_tables << (T, cyan) table >> {
+  id: integer
+  base_table_name: text
+  base_primary_column: text
+  related_table_name: text
+  related_primary_column: text
+  relation_name: text
+  mapping_table_name: text
+}
+class gpkgext_vt_layers << (T, cyan) table >> {
+  id: integer
+  table_name: text
+  name: text
+  description: text
+  min_zoom: integer 
+  max_zoom: integer
+  attributes_table_name: text
+}
+}
+package user-defined_tables {
+class vector_tiles_1 << (T, cyan) tiles table >> {
+  id: integer
+  zoom_level: integer
+  tile_column: integer
+  tile_row: integer
+  tile_data: blob
+}
+class vector_tiles_attributes_1 << (T, cyan) attributes table >> {
+  id: integer
+  att1: text
+}
+}
+package mapping_tables {
+class vector_tiles_attributes_mapping_1 << (T, cyan) mapping table >> {
+  base_id: integer
+  related_id: integer
+}
+}
+gpkgext_vt_layers -> vector_tiles_1 : "table_name" 
+gpkgext_vt_layers  -> vector_tiles_attributes_1 : "attributes_table_name"
+gpkgext_related_tables  -> vector_tiles_1 : "base_table_name"
+gpkgext_related_tables  -> vector_tiles_attributes_1 : "related_table_name"
+gpkgext_related_tables -> vector_tiles_attributes_mapping_1: "mapping_table_name" 
+vector_tiles_attributes_mapping_1 -> vector_tiles_attributes_1: "related_id"
+vector_tiles_attributes_mapping_1 -> vector_tiles_1: "base_id"
+@enduml

@@ -7,7 +7,7 @@
 :requirement-caption: Requirement
 :icons: font
 :source-highlighter: coderay
-:numbered!:
+:numbered:
 
 [id="ogcname"]
 Open Geospatial Consortium +
@@ -72,11 +72,18 @@ ogcdoc, geopackage, sqlite, raster, vector, feature, attributes, data, storage, 
 
 toc::[]
 
-
-
 include::0_introduction.adoc[]
 
 :numbered:
 
-include::1_vector_tiles.adoc[]
+include::1-vte.adoc[]
 
+include::2-mvte.adoc[]
+
+include::3-gvte.adoc[]
+
+include::4-vtae.adoc[]
+
+include::5-sse.adoc[]
+
+include::6-owce.adoc[]

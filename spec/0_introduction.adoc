@@ -1,12 +1,9 @@
-[preface]
 == Introduction
 
 A GeoPackage <<geopackage>> is a platform-independent SQLite <<sqlite>> database file that contains GeoPackage data and metadata tables.
 GeoPackage is designed to be extensible, including support for additional data types.
-
-This document defines an extension that allows a GeoPackage to contain additional data that is related to one or more features or attributes.
-As an example, this can be used to establish a many-to-many relationship between features (e.g. points, lines, or areas) and multimedia files. 
-To support this, an ancillary data table (`gpkgext_relations`) is used.
+Six GeoPackage extensions were developed as part of the OGC Vector Tiles Pilot project. 
+In this repository, each is presented using the http://www.geopackage.org/spec120/#extension_template[GeoPackage Extension Template]. 
 
 [bibliography]
 

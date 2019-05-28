@@ -1,0 +1,54 @@
+[[GeoJSONVectorTilesExtensionClause]]
+=== GeoJSON Vector Tiles Extension
+
+==== Extension Title
+
+GeoJSON Vector Tiles
+
+==== Introduction
+
+The GeoPackage Vector Tiles extension defines the rules and requirements for encoding vector tiles in a GeoPackage data store using https://tools.ietf.org/html/rfc7946[The GeoJSON Format].
+
+This extension, like all GeoPackage extensions, is intended to be transparent and to not interfere with GeoPackage-compliant, but non-supporting, software packages.
+
+==== Extension Author
+
+Image Matters LLC, in collaboration with the participants of the OGC Vector Tiles Pilot.
+
+==== Extension Name or Template
+
+`im_vector_tiles_geojson` (If this extension is adopted by OGC, then `gpkg_geojson_vector_tiles` will be named as an alias.)
+
+==== Extension Type
+
+This extension defines an encoding for the link:1-vte.adoc[Vector Tiles Extension].
+
+==== Applicability
+
+This extension defines a specific encoding for Vector Tiles in a GeoPackage.
+
+==== Scope
+
+read-write
+
+==== Specification
+
+If this extension is in use, then all of the link:1-vte.adoc[Vector Tiles Extension] applies.
+
+===== User Data Tables
+Like other tile-based content, the physical data is stored in a https://tools.ietf.org/html/rfc7946#section-3.3[GeoJSON Feature Collection].
+
+===== `gpkg_extensions`
+To use this extension, add a row to this table for each tile pyramid user data table.
+
+.gpkg_extensions Table Rows
+[cols=",,,,",options="header",]
+|========================================================================================================================================================================
+| table_name | column_name | extension_name | definition | scope
+| _tile pyramid user data table name_   | `tile_data`  | `im_vector_tiles_geojson`   | _a reference to this file_ | _read-write_
+|========================================================================================================================================================================
+
+[NOTE]
+==========
+The values in the `definition` column SHOULD refer in some human-readable way to this extension specification. If the extension is adopted by OGC, it will gain the "gpkg_" prefix and get a different definition permalink.
+==========

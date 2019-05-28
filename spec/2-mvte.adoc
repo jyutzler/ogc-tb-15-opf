@@ -1,0 +1,58 @@
+[[MapboxVectorTilesExtensionClause]]
+=== Mapbox Vector Tiles Extension
+
+==== Extension Title
+
+Mapbox Vector Tiles
+
+==== Introduction
+
+The GeoPackage Mapbox Vector Tiles extension defines the rules and requirements for encoding vector tiles in a GeoPackage data store as Mapbox Vector Tiles. 
+This extension is based on the https://www.mapbox.com/vector-tiles/specification/[Mapbox Vector Tiles (MVT) specification] https://github.com/mapbox/vector-tile-spec/tree/master/2.1[version 2.1]. 
+Note that this format uses https://github.com/google/protobuf[Google Protocol Buffers] as the content encoding for each tile.
+
+This extension, like all GeoPackage extensions, is intended to be transparent and to not interfere with GeoPackage-compliant, but non-supporting, software packages.
+
+==== Extension Author
+
+Image Matters LLC, in collaboration with the participants of the OGC Vector Tiles Pilot.
+
+==== Extension Name or Template
+
+`im_vector_tiles_mapbox` (If this extension is adopted by OGC, then `gpkg_mapbox_vector_tiles` will be named as an alias.)
+
+==== Extension Type
+
+This extension defines an encoding for the link:1-vte.adoc[Vector Tiles Extension].
+
+==== Applicability
+
+This extension defines a specific encoding for Vector Tiles in a GeoPackage.
+
+==== Scope
+
+read-write
+
+==== Specification
+
+If this extension is in use, then all of the link:1-vte.adoc[Vector Tiles Extension] applies.
+
+===== User Data Tables
+Like other tile-based content, the physical data is stored in http://www.geopackage.org/guidance/getting-started.html#user-data-tables[user-defined tiles tables].
+The `tile_data` is a Google Protocol Buffer as https://github.com/mapbox/vector-tile-spec/blob/master/2.1/vector_tile.proto[defined by MVT].
+
+===== `gpkg_extensions`
+To use this extension, add a row to this table for each tile pyramid user data table.
+
+[[mapbox_vector_tiles_ger_table]]
+.gpkg_extensions Table Rows
+[cols=",,,,",options="header",]
+|========================================================================================================================================================================
+| table_name | column_name | extension_name | definition | scope
+| _tile pyramid user data table name_   | `tile_data`  | `im_vector_tiles_mapbox`   | _a reference to this file_ | _read-write_
+|========================================================================================================================================================================
+
+[NOTE]
+==========
+The values in the `definition` column SHOULD refer in some human-readable way to this extension specification. If the extension is adopted by OGC, it will gain the "gpkg_" prefix and get a different definition permalink.
+==========
