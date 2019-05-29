@@ -69,7 +69,7 @@ The values in the `definition` column SHOULD refer in some human-readable way to
 ==========
 
 ===== `gpkg_contents`
-Like any other content type, add a row for each tile set, using a `data_type` of "tiled-features".
+Like any other content type, add a row for each tile set, using a `data_type` of "vector-tiles".
 
 ===== `gpkg_spatial_ref_sys`
 Like any other content type, the Spatial Reference System (SRS) for the content to be stored must be registered in this table. See clause 1.1.2 in the core GeoPackage standard. While any valid SRS may be used, Web Mercator (EPSG:3857) maintains compatibility with MVT.
