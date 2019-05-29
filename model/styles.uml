@@ -1,0 +1,51 @@
+@startuml
+hide empty methods
+
+package system_tables {
+class gpkg_contents << (T, cyan) table >> {
+  table_name: integer
+}
+
+class gpkgext_stylesheets << (T, cyan) table >> {
+  id: integer
+  style: text
+  format: text
+  stylesheet: blob
+  title: text
+  description: text
+}
+}
+package user-defined_tables {
+class vector_tiles_1 << (T, cyan) tiles table >> {
+  id: integer
+  zoom_level: integer
+  tile_column: integer
+  tile_row: integer
+  tile_data: blob
+}
+class tiles_1 << (T, cyan) tiles table >> {
+  id: integer
+  zoom_level: integer
+  tile_column: integer
+  tile_row: integer
+  tile_data: blob
+}
+class features_1 << (T, cyan) attributes table >> {
+  id: integer
+  geometry: blob
+  att1: text
+}
+}
+package mapping_tables {
+class gpkgext_stylesheet_references << (T, cyan) table >> {
+  id: integer
+  table_name: text
+  stylesheet_id: integer
+}
+}
+gpkgext_stylesheet_references -> gpkg_contents : "table_name" 
+gpkgext_stylesheet_references -> gpkgext_stylesheets : "stylesheet_id"
+gpkg_contents -> tiles_1 : "table_name"
+gpkg_contents -> vector_tiles_1 : "table_name"
+gpkg_contents -> features_1 : "table_name"
+@enduml

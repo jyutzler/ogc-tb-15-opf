@@ -1,0 +1,237 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://imagemattersllc.com/geopackage.manifest.0.1.json",
+  "title": "GeoPackage Manifest",
+  "description": "The contents of a GeoPackage",
+  "type": "object",
+  "properties": {
+    "file_size": {
+      "description": "The file size (MB)",
+      "type": "number"
+    },
+    "version": {
+      "description": "The GeoPackage Version (e.g., 1.2.1)",
+      "type": "string"
+    },
+    "data_types": {
+      "description": "The tiles data types that are in use",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "gpkg_spatial_ref_sys": {
+      "description": "Details on the SRSs in use",
+      "type": "object",
+      "properties": {      
+        "srss": {
+          "description": "The SRSs in use",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "srs_name": {
+                "description": "srs_name",
+                "type": "string"
+              },
+              "srs_id": {
+                "description": "srs_id",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "gpkg_crs_wkt": {
+          "description": "True: the WKT for Coordinate Reference Systems Extension is in use",
+          "type": "boolean"
+        }
+      }
+    },
+    "options": {
+      "features":{
+        "description": "If exists, the features option is in use",
+        "type": "object",
+        "properties": {
+          "geometry_type_names": {
+            "description": "The names of the geometry types in use",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "gpkg_rtree_index": {
+            "description": "True: the RTree spatial index is in use",
+            "type": "boolean"
+          },
+          "gpkg_schema": {
+            "description": "True: the Schema extension is in use",
+            "type": "boolean"
+          },
+          "zs": {
+            "description": "The z values in use",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 2
+            },
+            "minItems": 1
+          },
+          "ms": {
+            "description": "The m values in use",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 2
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "tiles":{
+        "description": "If exists, the tiles option is in use",
+        "type": "object",
+        "properties": {
+          "encodings": {
+            "description": "The encodings that are in use",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tile_matrix_sets": {
+            "description": "The matrix sets that are in use - not implementable at this time because the sets are not named",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "gpkg_zoom_other": {
+            "description": "True: \"Zoom Other Intervals\" extension is in use",
+            "type": "boolean"
+          },
+          "2d-gridded-coverage": {
+            "description": "If key exists, this extension is in use",
+            "type": "object",
+            "properties": {
+              "datatype": {
+                "description": "The datatypes in use",
+                "type": "array",
+                "items": {
+                  "description": "the datatype name",
+                  "type": "object",
+                  "properties": {
+                    "integer": {
+                      "description": "If key exists, this datatype is in use",
+                      "type": "boolean"
+                    },
+                    "float": {
+                      "description": "If key exists, this datatype is in use",
+                      "type": "object",
+                      "properties": {
+                        "compressed": {
+                          "description": "True: the TIFF may be LZW compressed",
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "vector-tiles": {
+            "description": "If key exists, these extensions are in use",
+            "type": "object",
+            "properties": {
+              "encodings": {
+                "description": "The vector tiles encodings in use",
+                "type": "object",
+                "properties": {
+                  "mapbox": {
+                    "description": "If key exists, Mapbox Vector Tiles are in use",
+                    "type": "object",
+                    "properties": {
+                      "compressed": {
+                        "description": "True: Mapbox vector tiles may be compressed",
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "geojson": {
+                    "description": "If key exists, GeoJSON Vector Tiles are in use",
+                    "type": "boolean"
+                  }
+                }
+              },
+              "attributes": {
+                "description": "How attributes may be encoded",
+                "type": "object",
+                "properties": {
+                  "embedded": {
+                    "description": "True: attributes may be embedded in vector tiles",
+                    "type": "boolean"
+                  },
+                  "table": {
+                    "description": "True: attributes may be stored in an attributes table",
+                    "type": "boolean"
+                  },
+                  "related_table": {
+                    "description": "True: the RTE may be used to correlate features with tiles containing those features",
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          },
+          "attributes": {
+            "description": "True: the attributes option is in use",
+            "type": "boolean"
+          }        
+        }
+      }
+    },
+    "extensions": {
+      "description": "An umbrella for cross-cutting extensions",
+      "type": "object",
+      "properties": {
+        "gpkg_extensions": {
+          "description": "True: GeoPackage is an \"extended GeoPackage\"",
+          "type": "boolean",
+        },
+        "gpkg_metadata": {
+          "description": "If key exists, this extension is in use",
+          "type": "object",
+          "properties": {
+            "profiles": {
+              "description": "The metadata profiles in use - not implementable at this time because a scheme for profiles has not been estabilshed",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "hierarchical": {
+              "description": "True: metadata documents may be organized hierarchically",
+              "type": "boolean"
+            }
+          }
+        },
+        "gpkg_related_tables": {
+          "description": "If key exists, this extension is in use",
+          "type": "object",
+          "properties": {
+            "relation_names": {
+              "description": "The relation names in use",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+      }
+    }
+  },
+  "required": [ "version", "gpkg_spatial_ref_sys" ]
+}
