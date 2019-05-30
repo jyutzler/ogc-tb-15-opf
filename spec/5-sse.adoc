@@ -39,7 +39,7 @@ read-write
 
 ===== `gpkg_extensions`
 
-To use this extension, add the following rows to this table as needed.
+To use this extension, add the following rows to this table.
 
 [[stylesheet_ger_table]]
 .gpkg_extensions Table Rows
@@ -61,12 +61,12 @@ This table contains stylesheets, organized by style set and option.
 The columns of this table are:
 
 * `id` is a primary key
-* `layer_set` is text defining a layer set that is suitable for styling in a common way
+* [line-through]#`layer_set` is text defining a layer set that is suitable for styling in a common way#
 * `style` is text describing a specific implementation for a layer set
 * `format` is the format of the stylesheet (e.g., `mbstyle` or `sld`)
 * `stylesheet` is the actual stylesheet BLOB
-* `title` is a text title
-* `description` is a text description
+* `title` is an optional text title
+* `description` is an optional text description
 
 [[gpkgext_symbols]]
 ===== `gpkgext_symbols`
@@ -77,8 +77,8 @@ The columns of this table are:
 * `symbol_id` is an string identifier such as a URI that can uniquely identify the symbol
 * `content_type` is the media type (formerly MIME type, e.g., `image/svg+xml` or `image/png`) of the symbol
 * `symbol` is the actual symbol BLOB
-* `title` is a text title
-* `description` is a text description
+* `title` is an optional text title
+* `description` is an optional text description
 
 [NOTE]
 ====

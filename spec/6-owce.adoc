@@ -12,7 +12,7 @@ OWS Context
 
 ==== Introduction
 
-This extension provides a mechanism for storing http://owscontext.org[OWS Context] content in a GeoPackage. It is aligned with the https://portal.opengeospatial.org/files/?artifact_id=55182[OWS Context Conceptual Model].
+This extension provides a mechanism for storing http://owscontext.org[OWS Context] content in a GeoPackage using the standard link:https://portal.opengeospatial.org/files/?artifact_id=55183[ATOM] or link:https://portal.opengeospatial.org/files/?artifact_id=68826[GeoJSON] encoding.
 
 ==== Extension Author
 
@@ -20,12 +20,11 @@ Image Matters LLC, in collaboration with the participants of the OGC Vector Tile
 
 ==== Extension Name or Template
 
-`im_owscontext` (will become `gpkg_owscontext` if adopted by OGC)
+`im_ows_context` (will become `gpkg_ows_context` if adopted by OGC)
 
 ==== Extension Type
 
 New requirement dependent on http://www.geopackage.org/spec/#core[GeoPackage Core (Clause 1)].
-It is optionally dependent on the <<styles_extension,Styles Extension>>.
 
 ==== Applicability
 
@@ -36,15 +35,9 @@ This extension adds an additional level of organization to existing GeoPackage d
 read-write
 
 ==== Specification
-The following UML diagram illustrates the relationship between the four OWS Context tables.
-
-[#img_OWS_Context_Model,reftext='{figure-caption} {counter:figure-num}']
-.OWS Context Model
-image::code/owscontext.png[align="center"]
-
 ===== `gpkg_extensions`
 
-To use this extension, add the following rows to this table as needed.
+To use this extension, add the following row to this table.
 
 [[ows_context_ger_table]]
 .gpkg_extensions Table Rows
@@ -52,8 +45,6 @@ To use this extension, add the following rows to this table as needed.
 |========================================================================================================================================================================
 | table_name | column_name | extension_name | definition | scope
 |`gpkgext_contexts` |null |`im_ows_context` |_a reference to this file_ |`read-write`
-|`gpkgext_context_resources` |null |`im_ows_context` |_a reference to this file_ |`read-write`
-|`gpkgext_context_offerings` |null |`im_ows_context` |_a reference to this file_ |`read-write`
 |========================================================================================================================================================================
 
 [NOTE]
@@ -67,42 +58,8 @@ This table describes OWS Context instances.
 The columns of this table are:
 
 * `id` is a primary key
-* `title`, `abstract`, `author`, `publisher`, `creator`, `rights`, and `keywords` are text descriptions
-* `last_change` is a timestamp in ISO 8601 format
-* `min_x`, `min_y`, `max_x`, `max_y`, `srs_id`, `min_time`, and `max_time` are the spatio-temporal extents of the context
-* `metadata_id` is a foreign key to `gpkg_metadata` for use with the http://www.geopackage.org/spec121/#extension_metadata[metadata extension].
-
-[[gpkgext_context_resources]]
-===== `gpkgext_context_resources`
-This table represents an owc:SQLResource, which could be a file, service, or inline content.
-The columns of this table are:
-
-* `id` is a primary key
-* `context_id` is a foreign key to `id` from `gpkgext_contexts`
-* `title`, `abstract`, `author`, `publisher`, `rights`, `description`, and `keywords` are text descriptions
-* `min_x`, `min_y`, `max_x`, `max_y`, `srs_id`, `min_time`, and `max_time` are the spatio-temporal extents of the context
-* `active` is a boolean flag indicating the state of the resource within the context document
-* `min_scale_denominator` and `max_scale_denominator` are the minimum and maximum display scales
-* `order` is the ascending order of the resource
-* `requestURL` is the service request URL or file URL (`.` for the current file)
-* `code` identifies the type of resource (e.g., `GPKG` or `WMS`)
-
-[[gpkgext_context_offerings]]
-===== `gpkgext_context_offerings`
-This table contains owc:Offering instances which could be a service layer or table.
-The columns of this table are:
-
-* `id` is a primary key
-* `resource_id` is a foreign key to `id` from `gpkg_context_resources`
-* `stylesheet_id` is a foreign key to `id` from `gpkgext_stylesheets` (see <<gpkgext_stylesheets>>)
-* `code` is a code identifying the type of offering
-* `method` is the name of the operation method request (e.g., `GET`)
-* `type` is the media type of the return result
-* `layer_name` is a single layer, table, or view name (for tiled feature data, put both the table name and layer name, separated by `/`, for example "tiles_Daraa/AgricultureSrf")
-* `query` is an actual SQL or HTTP query
-* `contents` is the actual data (for inline data)
-
-[TIP]
-====
-TODO: Provide some example codes.
-====
+* `name` is a text label for the context
+* `format` is the format of the context (e.g., `atom` or `geojson`)
+* `context` is the actual context text
+* `title` is an optional text title designed to be human-readable
+* `description` is an optional text description designed to be human-readable
