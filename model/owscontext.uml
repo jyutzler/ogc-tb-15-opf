@@ -1,0 +1,7 @@
+@startuml
+gpkgext_context "1" o-- "1..*" gpkgext_context_resources
+gpkgext_context <.. gpkgext_context_resources
+gpkgext_context_resources "1" o-- "1..*" gpkgext_context_offerings
+gpkgext_context_resources <.. gpkgext_context_offerings
+gpkgext_context_offerings "0..*" o-- "1" gpkgext_stylesheets
+@enduml
